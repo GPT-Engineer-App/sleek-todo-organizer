@@ -82,10 +82,17 @@ const TodoPage = ({ onLogout }) => {
     },
   ]);
 
-  const addTodo = () => {
-    if (inputValue.trim() !== "") {
-      setTodos([...todos, inputValue]);
-      setInputValue("");
+  const [newCompany, setNewCompany] = useState({
+    name: "",
+    street: "",
+    city: "",
+    postalCode: "",
+  });
+
+  const addCompany = () => {
+    if (newCompany.name.trim() !== "") {
+      setCompanies([...companies, { ...newCompany, id: companies.length + 1 }]);
+      setNewCompany({ name: "", street: "", city: "", postalCode: "" });
     }
   };
 
@@ -96,7 +103,16 @@ const TodoPage = ({ onLogout }) => {
         <InputGroup mb={4}>
           <Input placeholder="Add a new todo" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
           <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={addTodo}>
+            <Button
+              h="1.75rem"
+              size="sm"
+              onClick={() => {
+                if (inputValue.trim() !== "") {
+                  setTodos([...todos, inputValue]);
+                  setInputValue("");
+                }
+              }}
+            >
               Add
             </Button>
           </InputRightElement>
@@ -110,6 +126,15 @@ const TodoPage = ({ onLogout }) => {
           <Text fontWeight="bold" mt={6} mb={4}>
             Companies
           </Text>
+          <InputGroup>
+            <Input placeholder="Company Name" value={newCompany.name} onChange={(e) => setNewCompany({ ...newCompany, name: e.target.value })} mb={2} />
+            <Input placeholder="Street" value={newCompany.street} onChange={(e) => setNewCompany({ ...newCompany, street: e.target.value })} mb={2} />
+            <Input placeholder="City" value={newCompany.city} onChange={(e) => setNewCompany({ ...newCompany, city: e.target.value })} mb={2} />
+            <Input placeholder="Postal Code" value={newCompany.postalCode} onChange={(e) => setNewCompany({ ...newCompany, postalCode: e.target.value })} mb={2} />
+            <Button onClick={addCompany} colorScheme="blue">
+              Add Company
+            </Button>
+          </InputGroup>
           {companies.map((company) => (
             <CompanyRow key={company.id} company={company} />
           ))}
