@@ -66,11 +66,35 @@ const LoginPage = ({ onLogin }) => {
 };
 
 const TodoPage = ({ onLogout }) => {
+  const [todos, setTodos] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+
+  const addTodo = () => {
+    if (inputValue.trim() !== "") {
+      setTodos([...todos, inputValue]);
+      setInputValue("");
+    }
+  };
+
   return (
     <Flex h="100vh">
       <NavBar onLogout={onLogout} />
       <Flex p={10} flex={1} direction="column">
-        <Text mb={4}>Your Todos will be here</Text>
+        <InputGroup mb={4}>
+          <Input placeholder="Add a new todo" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
+          <InputRightElement width="4.5rem">
+            <Button h="1.75rem" size="sm" onClick={addTodo}>
+              Add
+            </Button>
+          </InputRightElement>
+        </InputGroup>
+        <VStack align="stretch">
+          {todos.map((todo, index) => (
+            <Box key={index} p={2} shadow="md" borderWidth="1px">
+              {todo}
+            </Box>
+          ))}
+        </VStack>
       </Flex>
     </Flex>
   );
