@@ -65,9 +65,22 @@ const LoginPage = ({ onLogin }) => {
   );
 };
 
+import CompanyRow from "./CompanyRow.jsx";
+
 const TodoPage = ({ onLogout }) => {
   const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [companies, setCompanies] = useState([
+    {
+      id: 1,
+      name: "Michael's shop",
+      address: {
+        street: "Station road",
+        city: "Cambridge",
+        postalCode: "CB1 1OP",
+      },
+    },
+  ]);
 
   const addTodo = () => {
     if (inputValue.trim() !== "") {
@@ -88,11 +101,17 @@ const TodoPage = ({ onLogout }) => {
             </Button>
           </InputRightElement>
         </InputGroup>
-        <VStack align="stretch">
+        <VStack align="stretch" spacing={4}>
           {todos.map((todo, index) => (
             <Box key={index} p={2} shadow="md" borderWidth="1px">
               {todo}
             </Box>
+          ))}
+          <Text fontWeight="bold" mt={6} mb={4}>
+            Companies
+          </Text>
+          {companies.map((company) => (
+            <CompanyRow key={company.id} company={company} />
           ))}
         </VStack>
       </Flex>
